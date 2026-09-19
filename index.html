@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Budget Track - Tableau de bord financier">
+  <title>Budget Track — Tableau de bord</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Budget Track">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <rect x="7" y="6" width="34" height="36" rx="9"></rect>
+            <rect class="bar" x="14" y="26" width="5" height="10" rx="1"></rect>
+            <rect class="bar" x="22" y="20" width="5" height="16" rx="1"></rect>
+            <rect class="bar" x="30" y="13" width="5" height="23" rx="1"></rect>
+          </svg>
+        </span>
+        <span>Budget<span class="brand-track">Track</span></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a class="nav-link active" href="index.html">Tableau de bord</a>
+        <a class="nav-link" href="/Transcation.html" target="_blank">Transactions</a>
+        <a class="nav-link" href="/statistiques.html" target="_blank">Statistiques</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button notification-button" id="notificationBtn" title="Notifications" aria-label="Notifications" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+          <span class="notification-dot" id="notificationDot" hidden></span>
+        </button>
+
+        <button class="icon-button" id="settingsBtn" title="Paramètres" aria-label="Paramètres">
+          <svg viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="m19.4 15 .1.1a1.7 1.7 0 0 1-2.4 2.4l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a1.7 1.7 0 0 1-3.4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1a1.7 1.7 0 0 1-2.4-2.4l.1-.1A1.7 1.7 0 0 0 6.2 12a1.7 1.7 0 0 0-1.2-2.9h-.2a1.7 1.7 0 0 1 0-3.4H5a1.7 1.7 0 0 0 1.2-2.9l-.1-.1A1.7 1.7 0 0 1 8.5.3l.1.1A1.7 1.7 0 0 0 11.5-.8V-.6a1.7 1.7 0 0 1 3.4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a1.7 1.7 0 0 1 2.4 2.4l-.1.1A1.7 1.7 0 0 0 19 6.1v.2a1.7 1.7 0 0 0 1.2 2.9h.2a1.7 1.7 0 0 1 0 3.4h-.2A1.7 1.7 0 0 0 19 15Z"/></svg>
+        </button>
+
+        <button class="profile-button" id="profileBtn" title="Modifier la photo de profil">
+          <img id="profileImage" alt="Photo de profil" hidden>
+          <span id="profileInitials">BT</span>
+        </button>
+        <input type="file" id="profileInput" accept="image/*" hidden>
+      </div>
+
+      <div class="notification-panel" id="notificationPanel" hidden>
+        <div class="panel-title">
+          <strong>Nouvelles notifications</strong>
+          <button id="markNotificationsRead">Tout lire</button>
+        </div>
+        <div id="notificationList"></div>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="kpi-grid" aria-label="Résumé financier">
+        <article class="kpi-card">
+          <div class="kpi-head">
+            <span>Solde actuel</span>
+            <span class="kpi-icon wallet-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H19v15H6.5A2.5 2.5 0 0 1 4 16.5v-10Z"/><path d="M4 7h15v4h-3a2 2 0 0 0 0 4h3"/><circle cx="16" cy="13" r=".6"/></svg>
+            </span>
+          </div>
+          <div class="kpi-value" id="balanceValue">0,00 FCFA</div>
+          <div class="kpi-trend positive" id="balanceTrend">—</div>
+        </article>
+
+        <article class="kpi-card">
+          <div class="kpi-head">
+            <span>Recettes</span>
+            <span class="kpi-icon income-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 16 19 4M10 4h9v9"/></svg>
+            </span>
+          </div>
+          <div class="kpi-value" id="incomeValue">0,00 FCFA</div>
+          <div class="kpi-trend positive" id="incomeTrend">Ce mois</div>
+        </article>
+
+        <article class="kpi-card">
+          <div class="kpi-head">
+            <span>Dépenses</span>
+            <span class="kpi-icon expense-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
+            </span>
+          </div>
+          <div class="kpi-value" id="expenseValue">0,00 FCFA</div>
+          <div class="kpi-trend negative" id="expenseTrend">Ce mois</div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="card recent-card">
+          <div class="card-header">
+            <div>
+              <h2>Transactions récentes</h2>
+              <p>Les dernières opérations enregistrées</p>
+            </div>
+            <a class="text-button" href="/Transcation.html" target="_blank">Voir tout</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction</th>
+                  <th>Catégorie</th>
+                  <th>Date</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+              <tbody id="recentTransactions"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="recentEmpty" hidden>
+            <div class="empty-icon">↗</div>
+            <strong>Aucune transaction récente</strong>
+            <p>Ajoute une transaction depuis ta page Transactions.</p>
+          </div>
+        </article>
+
+        <article class="card chart-card" id="statistiques">
+          <div class="card-header">
+            <div>
+              <h2>Répartition des dépenses</h2>
+              <p id="chartPeriod">Toutes les dépenses · par catégorie</p>
+            </div>
+            <button class="export-button" id="exportBtn" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 20h14"/></svg>
+              Exporter CSV
+            </button>
+          </div>
+
+          <div class="chart-center">
+            <div class="donut-wrap">
+              <canvas id="expenseChart" width="360" height="360" aria-label="Graphique de répartition des dépenses"></canvas>
+              <div class="donut-center">
+                <strong id="chartTotal">0,00 FCFA</strong>
+                <span>Total dépenses</span>
+              </div>
+            </div>
+            <div class="legend" id="expenseLegend"></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="sync-status">
+        <span class="sync-dot"></span>
+        <span id="syncText">Synchronisé avec les transactions</span>
+        <span class="sync-time" id="syncTime"></span>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="settingsModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <button class="modal-close" id="closeSettings" aria-label="Fermer">×</button>
+      <div class="modal-icon">⚙</div>
+      <h2 id="settingsTitle">Paramètres d'affichage</h2>
+      <p>Choisis le thème de Budget Track. Le choix est mémorisé pour toutes les pages utilisant ce système.</p>
+      <div class="theme-options">
+        <button class="theme-option" data-theme="light">
+          <span class="theme-preview light-preview"></span>
+          <span><strong>Clair</strong><small>Interface lumineuse</small></span>
+          <span class="radio" id="radioLight"></span>
+        </button>
+        <button class="theme-option" data-theme="dark">
+          <span class="theme-preview dark-preview"></span>
+          <span><strong>Sombre</strong><small>Confort dans les environnements peu éclairés</small></span>
+          <span class="radio" id="radioDark"></span>
+        </button>
+      </div>
+      <button class="primary-button" id="closeSettings2">Enregistrer</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

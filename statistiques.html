@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Statistiques – BudgetTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/statistiques.css">
+</head>
+<body>
+
+
+  <!-- ================================================================
+       PAGE STATISTIQUES
+       ================================================================ -->
+  <main id="page-statistiques" class="stats-page">
+
+    <div class="stats-entete">
+      <div>
+        <h1>Statistiques</h1>
+        <p class="stats-sous-titre">Analyse de vos finances et tendances sur les 6 derniers mois</p>
+      </div>
+
+      <!-- Sélecteur de mois : rempli automatiquement à partir des données -->
+      <label class="stats-selecteur">
+        <svg class="stats-selecteur-icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+        </svg>
+        <span class="visuellement-cache">Mois affiché</span>
+        <select id="stats-mois"></select>
+        <svg class="stats-selecteur-fleche" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </label>
+    </div>
+
+    <p id="stats-erreur" class="stats-erreur" role="alert" hidden></p>
+
+    <!-- Les 4 indicateurs : les valeurs sont remplies par statistiques.js -->
+    <section class="stats-cartes" aria-label="Indicateurs du mois">
+      <article class="stats-carte">
+        <span class="stats-icone stats-icone--depenses" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+        </span>
+        <h2 class="stats-carte-titre">Dépenses ce mois</h2>
+        <p class="stats-valeur" data-valeur="depenses">–</p>
+        <p class="stats-variation" data-variation="depenses"></p>
+      </article>
+
+      <article class="stats-carte">
+        <span class="stats-icone stats-icone--revenus" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </span>
+        <h2 class="stats-carte-titre">Revenus</h2>
+        <p class="stats-valeur" data-valeur="revenus">–</p>
+        <p class="stats-variation" data-variation="revenus"></p>
+      </article>
+
+      <article class="stats-carte">
+        <span class="stats-icone stats-icone--solde" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+        </span>
+        <h2 class="stats-carte-titre">Solde actuel</h2>
+        <p class="stats-valeur" data-valeur="solde">–</p>
+        <p class="stats-variation" data-variation="solde"></p>
+      </article>
+
+      <article class="stats-carte">
+        <span class="stats-icone stats-icone--epargne" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/><path d="M2 9v1c0 1.1.9 2 2 2h1"/><path d="M16 11h.01"/></svg>
+        </span>
+        <h2 class="stats-carte-titre">Taux d'épargne</h2>
+        <p class="stats-valeur" data-valeur="epargne">–</p>
+        <p class="stats-variation" data-variation="epargne"></p>
+      </article>
+    </section>
+
+    <!-- Les 2 graphiques : dessinés en SVG par statistiques.js -->
+    <section class="stats-graphiques">
+      <article class="stats-panneau">
+        <h2>Dépenses par catégorie</h2>
+        <div class="stats-graphique" id="graphique-categories" role="img" aria-label="Dépenses par catégorie"></div>
+        <ul class="stats-legende" id="legende-categories"></ul>
+      </article>
+
+      <article class="stats-panneau">
+        <h2>Évolution du solde</h2>
+        <p class="stats-sous-titre">Solde sur les 6 derniers mois</p>
+        <div class="stats-graphique" id="graphique-solde" role="img" aria-label="Évolution du solde"></div>
+        <p class="stats-croissance" id="croissance-moyenne"></p>
+      </article>
+    </section>
+
+  </main>
+
+  <script src="/js/statistiques.js" defer></script>
+</body>
+</html>
