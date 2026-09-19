@@ -1,0 +1,382 @@
+/* ==========================================================================
+   BudgetTrack – Page Statistiques
+   --------------------------------------------------------------------------
+   1. Variables et base           → à partager avec toutes les pages
+   2. En-tête (barre de nav)      → à partager avec toutes les pages
+   3. Page Statistiques           → classes préfixées « stats- » pour éviter
+                                    les conflits avec les pages des collègues
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES ET BASE
+   -------------------------------------------------------------------------- */
+:root {
+  --bt-fond-haut: #eef3fd;
+  --bt-fond-bas: #dbe7fb;
+  --bt-bleu: #1a56db;
+  --bt-marine: #0d1b5e;
+  --bt-texte: #3b4a6b;
+  --bt-gris: #5a6787;
+  --bt-blanc: #ffffff;
+  --bt-vert: #1f8a4c;
+  --bt-rouge: #d13c3c;
+  --bt-rayon: 18px;
+  --bt-ombre: 0 8px 24px rgba(26, 56, 140, 0.09);
+  --bt-police: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--bt-fond-bas); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--bt-police);
+  color: var(--bt-marine);
+  background: linear-gradient(180deg, var(--bt-fond-haut), var(--bt-fond-bas)) fixed;
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 3px solid var(--bt-bleu);
+  outline-offset: 3px;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. EN-TÊTE
+   -------------------------------------------------------------------------- */
+.bt-entete {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 20px clamp(16px, 4vw, 48px);
+  background: var(--bt-blanc);
+  box-shadow: 0 4px 18px rgba(26, 56, 140, 0.08);
+}
+
+.bt-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--bt-marine);
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.bt-nav {
+  display: flex;
+  gap: 32px;
+}
+
+.bt-nav a {
+  padding: 8px 0;
+  color: var(--bt-gris);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s;
+}
+
+.bt-nav a:hover { color: var(--bt-marine); }
+
+.bt-nav a[aria-current="page"] {
+  color: var(--bt-bleu);
+  border-bottom-color: var(--bt-bleu);
+}
+
+.bt-outils {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.bt-bouton-icone {
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  color: #7f94c4;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.bt-bouton-icone:hover { color: var(--bt-bleu); }
+
+.bt-avatar {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  color: var(--bt-blanc);
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4a86f0, #1a56db);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. PAGE STATISTIQUES
+   -------------------------------------------------------------------------- */
+.stats-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 44px clamp(16px, 4vw, 48px) 64px;
+}
+
+/* --- Titre + sélecteur de mois --- */
+.stats-entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stats-entete h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.stats-sous-titre {
+  margin: 6px 0 0;
+  color: var(--bt-texte);
+  font-size: 1.1rem;
+}
+
+.stats-selecteur {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--bt-marine);
+  background: rgba(198, 217, 250, 0.55);
+  border: 1.5px solid #a9c3f3;
+  border-radius: 14px;
+}
+
+.stats-selecteur-icone,
+.stats-selecteur-fleche {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--bt-bleu);
+  pointer-events: none;
+}
+.stats-selecteur-icone { left: 16px; }
+.stats-selecteur-fleche { right: 14px; }
+
+.stats-selecteur select {
+  min-width: 190px;
+  padding: 14px 42px 14px 52px;
+  color: inherit;
+  font: 500 1.15rem var(--bt-police);
+  background: transparent;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  appearance: none;
+}
+
+/* --- Message d'erreur --- */
+.stats-erreur {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  color: #8a1f1f;
+  background: #fde8e8;
+  border-radius: 12px;
+}
+
+/* --- Les 4 cartes d'indicateurs --- */
+.stats-cartes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.stats-carte {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 22px;
+  text-align: center;
+  background: var(--bt-blanc);
+  border-radius: var(--bt-rayon);
+  box-shadow: var(--bt-ombre);
+}
+
+.stats-icone {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+}
+.stats-icone--depenses { color: #1a56db; background: #c9dcfa; }
+.stats-icone--revenus  { color: #1f8a4c; background: #cbeed8; }
+.stats-icone--solde    { color: #0d1b5e; background: #6f8fe6; }
+.stats-icone--epargne  { color: #0d1b5e; background: #a3aef0; }
+
+.stats-carte-titre {
+  margin: 0;
+  color: var(--bt-texte);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.stats-valeur {
+  margin: 10px 0 8px;
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.stats-variation {
+  margin: 0;
+  color: var(--bt-gris);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.stats-variation.est-positive { color: var(--bt-vert); }
+.stats-variation.est-negative { color: var(--bt-rouge); }
+
+/* --- Les 2 graphiques --- */
+.stats-graphiques {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.stats-panneau {
+  min-width: 0;
+  padding: 26px 28px 22px;
+  background: var(--bt-blanc);
+  border-radius: var(--bt-rayon);
+  box-shadow: var(--bt-ombre);
+}
+
+.stats-panneau h2 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.stats-panneau .stats-sous-titre {
+  margin-top: 4px;
+  font-size: 1.05rem;
+}
+
+/* Le SVG est dessiné à la taille exacte de ce bloc (voir statistiques.js) */
+.stats-graphique {
+  position: relative;
+  height: 240px;
+  min-width: 0;
+  margin-top: 12px;
+}
+
+.stats-graphique svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.stats-vide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--bt-gris);
+  text-align: center;
+}
+
+.stats-legende {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin: 14px 0 0;
+  padding: 0;
+  color: var(--bt-marine);
+  font-size: 0.78rem;
+  font-weight: 500;
+  list-style: none;
+}
+
+.stats-legende li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stats-legende li::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: var(--couleur, var(--bt-bleu));
+  border-radius: 50%;
+}
+
+.stats-croissance {
+  margin: 8px 0 0;
+  color: var(--bt-bleu);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+
+/* --------------------------------------------------------------------------
+   Adaptation aux écrans plus petits
+   -------------------------------------------------------------------------- */
+@media (max-width: 1000px) {
+  .stats-cartes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats-graphiques { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .bt-entete { flex-wrap: wrap; gap: 14px 24px; }
+  .bt-nav { order: 3; width: 100%; gap: 22px; overflow-x: auto; }
+  .bt-logo { font-size: 1.5rem; }
+  .bt-logo svg { width: 40px; height: 40px; }
+  .bt-avatar { width: 46px; height: 46px; font-size: 1.1rem; }
+}
+
+@media (max-width: 480px) {
+  .bt-nav { gap: 14px; }
+  .bt-nav a { font-size: 0.9rem; }
+  .stats-cartes { grid-template-columns: minmax(0, 1fr); }
+  .stats-panneau { padding: 20px 16px 18px; }
+  .stats-panneau h2 { font-size: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
